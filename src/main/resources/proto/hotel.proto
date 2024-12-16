@@ -1,0 +1,84 @@
+syntax = "proto3";
+option java_package = "stubs";
+option java_multiple_files = true;
+
+// Message pour représenter un client
+message Client {
+    string id = 1;
+    string nom = 2;
+    string prenom = 3;
+    string email = 4;
+    string telephone = 5;
+}
+
+// Message pour représenter une chambre
+message Chambre {
+    string id = 1;
+    string type = 2;
+    float prix = 3;
+    bool disponible = 4;
+}
+
+
+// Message pour représenter une réservation
+message Reservation {
+    string id = 1;
+    string clientId = 2;   // ID du client lié
+    string chambreId = 3;  // ID de la chambre liée
+    string dateDebut = 4;
+    string dateFin = 5;
+    string preferences = 6;
+}
+
+// Requête pour obtenir toutes les réservations
+message GetAllReservationsRequest {}
+
+// Réponse contenant la liste des réservations
+message GetAllReservationsResponse {
+    repeated Reservation reservations = 1;
+}
+
+// Requête pour obtenir une réservation par ID
+message GetReservationByIdRequest {
+    string id = 1;
+}
+
+// Réponse contenant la réservation demandée
+message GetReservationByIdResponse {
+    Reservation reservation = 1;
+}
+
+// Requête pour sauvegarder une réservation (création ou mise à jour)
+message CreateReservationRequest {
+    Reservation reservation = 1;
+}
+
+// Réponse contenant la réservation sauvegardée
+message CreateReservationResponse {
+    Reservation reservation = 1;
+}
+
+// Requête pour supprimer une réservation par ID
+message DeleteReservationRequest {
+    string id = 1;
+}
+
+// Réponse pour confirmer la suppression
+message DeleteReservationResponse {
+    bool success = 1;
+}
+
+// Service pour gérer les réservations
+service ReservationService {
+    // Récupérer toutes les réservations
+    rpc GetAllReservations (GetAllReservationsRequest) returns (GetAllReservationsResponse);
+
+    // Récupérer une réservation par ID
+    rpc GetReservationById (GetReservationByIdRequest) returns (GetReservationByIdResponse);
+
+    // Sauvegarder une réservation (création ou mise à jour)
+    rpc CreateReservation (CreateReservationRequest) returns (CreateReservationResponse);
+
+    // Supprimer une réservation par ID
+    rpc DeleteReservation (DeleteReservationRequest) returns (DeleteReservationResponse);
+}
